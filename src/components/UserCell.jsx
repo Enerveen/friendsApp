@@ -26,7 +26,7 @@ const UserCell = ({ user }) => {
     <Cell
       before={user.photo_100 ? <Avatar src={user.photo_100} /> : null}
       description={`${user.city && user.city.title ? user.city.title : ''} Пол: ${convertSex(user.sex)}; Возраст: ${
-        user.bdate.length > 7 ? birthDateToAge(user.bdate) : 'Неизвестен'
+        user.bdate ? birthDateToAge(user.bdate) : 'Неизвестен'
       }`}
     >
       {`${user.first_name} ${user.last_name}`}
