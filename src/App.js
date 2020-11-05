@@ -1,15 +1,16 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import bridge from '@vkontakte/vk-bridge';
-import { View, Panel, PanelHeader } from '@vkontakte/vkui';
+import { View } from '@vkontakte/vkui';
 
 import { loadFriends } from './redux/actions';
 
 import '@vkontakte/vkui/dist/vkui.css';
 
-import Main from './panels/Main';
+import Friends from './panels/Friends';
+import Search from './panels/Search';
 
-const App = ({ loadFriends }) => {
+const App = ({ loadFriends, panel }) => {
   useEffect(() => {
     bridge.send('VKWebAppGetUserInfo').then((user) =>
       bridge
@@ -44,16 +45,20 @@ const App = ({ loadFriends }) => {
   }, []);
 
   return (
-    <View activePanel='main'>
-      <Panel id='main'>
-        <PanelHeader>Мои дорогие товарищи</PanelHeader>
-        <Main id='main' />
-      </Panel>
+    <View activePanel={panel}>
+      <Friends id='friends' />
+      <Search id='search' />
     </View>
   );
 };
 
-export default connect(null, { loadFriends })(App);
+const mapStateToProps = (state) => {
+  return {
+    panel: state.panel,
+  };
+};
+
+export default connect(mapStateToProps, { loadFriends })(App);
 
 /*
 
