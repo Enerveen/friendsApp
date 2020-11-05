@@ -15,7 +15,6 @@ const App = () => {
       bridge
         .send('VKWebAppCallAPIMethod', {
           method: 'friends.get',
-          request_id: '32test',
           params: {
             fields: 'sex, bdate, city, photo_100',
             user_id: user.id,
@@ -26,6 +25,20 @@ const App = () => {
         })
         .then((friendsList) => {
           setFriends(friendsList.response.items);
+          friendsList.response.items.map((elem, index) =>
+            bridge
+              .send('VKWebAppCallAPIMethod', {
+                method: 'friends.get',
+                params: {
+                  fields: 'sex, bdate, city, photo_100',
+                  user_id: elem.id,
+                  count: 10000,
+                  v: '5.124',
+                  access_token: '26f745c126f745c126f745c1142683fb12226f726f745c179559e7ac74f7945e93c61fb',
+                },
+              })
+              .then((res) => setFriends(friends.concat(res.response.items)))
+          );
         })
     );
   }, []);

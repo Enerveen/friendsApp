@@ -15,19 +15,24 @@ const UserCell = ({ user }) => {
   };
 
   const birthDateToAge = (bd) => {
-    const [day, month, year] = bd.split('.');
-    const birthDate = new Date(year, month, day);
-    const now = new Date(),
-      age = now.getFullYear() - birthDate.getFullYear();
-    return now.setFullYear(1972) < birthDate.setFullYear(1972) ? age - 1 : age;
+    if (bd) {
+      const [day, month, year] = bd.split('.');
+      const birthDate = new Date(year, month, day),
+        now = new Date(),
+        age = now.getFullYear() - birthDate.getFullYear();
+      const res = now.setFullYear(1972) < birthDate.setFullYear(1972) ? age - 1 : age;
+      return res ? res : 'Неизвестен';
+    } else {
+      return 'Неизвестен';
+    }
   };
 
   return (
     <Cell
       before={user.photo_100 ? <Avatar src={user.photo_100} /> : null}
-      description={`${user.city && user.city.title ? user.city.title : ''} Пол: ${convertSex(user.sex)}; Возраст: ${
-        user.bdate ? birthDateToAge(user.bdate) : 'Неизвестен'
-      }`}
+      description={`${user.city && user.city.title ? user.city.title : ''} Пол: ${convertSex(
+        user.sex
+      )}; Возраст: ${birthDateToAge(user.bdate)}`}
     >
       {`${user.first_name} ${user.last_name}`}
     </Cell>
