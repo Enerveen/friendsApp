@@ -5,6 +5,13 @@ export function setActivePanel(data) {
   };
 }
 
+export function setLoading(data) {
+  return {
+    type: 'SET_LOADING',
+    payload: data,
+  };
+}
+
 export function loadFriends(data) {
   return {
     type: 'LOAD_FRIENDS',

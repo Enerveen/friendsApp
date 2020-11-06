@@ -1,12 +1,12 @@
 import React from 'react';
 
 import { connect } from 'react-redux';
-import { setActivePanel } from '../redux/actions';
-import { Panel, PanelHeader, List, CellButton } from '@vkontakte/vkui';
+import { setActivePanel, setLoading } from '../redux/actions';
+import { Panel, PanelHeader, Header, List, CellButton } from '@vkontakte/vkui';
 
 import UserCell from '../components/UserCell';
 
-const Friends = ({ friends, params, id, setActivePanel }) => {
+const Friends = ({ friends, params, id, setActivePanel, loading, setLoading }) => {
   if (friends.length > 10000) {
     friends.length = 10000;
   }
@@ -44,25 +44,40 @@ const Friends = ({ friends, params, id, setActivePanel }) => {
 
   const filteredFriends = filterFriends(friends);
 
-  console.log(filteredFriends);
-  return (
-    <Panel id={id}>
-      <PanelHeader>Десять тысяч друзей!</PanelHeader>
-      <CellButton onClick={() => setActivePanel('search')}>Настройки поиска</CellButton>
-      <List>
-        {filteredFriends.map((user, index) => (
-          <UserCell key={index} user={user} />
-        ))}
-      </List>
-    </Panel>
-  );
+  if (filteredFriends[0]) {
+    setLoading(false);
+    return (
+      <Panel id={id}>
+        <PanelHeader>Десять тысяч друзей!</PanelHeader>
+        <CellButton onClick={() => setActivePanel('search')}>Настройки поиска</CellButton>
+        <List>
+          {filteredFriends.map((user, index) => (
+            <UserCell key={index} user={user} />
+          ))}
+        </List>
+      </Panel>
+    );
+  } else {
+    if (!loading) {
+      return (
+        <Panel id={id}>
+          <PanelHeader>Десять тысяч друзей!</PanelHeader>
+          <Header subtitle='Попробуйте изменить критерии поиска или найти новых друзей'>Никого не найдено :(</Header>
+          <CellButton onClick={() => setActivePanel('search')}>Попробовать ещё</CellButton>
+        </Panel>
+      );
+    } else {
+      return <></>;
+    }
+  }
 };
 
 const mapStateToProps = (state) => {
   return {
     friends: state.friends,
     params: state.params,
+    loading: state.app.isLoading,
   };
 };
 
-export default connect(mapStateToProps, { setActivePanel })(Friends);
+export default connect(mapStateToProps, { setActivePanel, setLoading })(Friends);

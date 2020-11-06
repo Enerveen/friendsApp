@@ -33,7 +33,10 @@ const UserCell = ({ user }) => {
       description={
         <div>
           <p>{user.city && user.city.title ? user.city.title : ''}</p>
-          <p>{convertSex(user.sex)}</p> <p>{user.age ? convertAge(user.age) : ''}</p>
+          <p>
+            {convertSex(user.sex)}
+            {user.age ? `, ${convertAge(user.age)}` : ''}
+          </p>
         </div>
       }
     >

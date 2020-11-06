@@ -16,7 +16,6 @@ import {
 import { setName, setAgeRange, setSex, setActivePanel } from '../redux/actions';
 
 const Search = ({ id, params, setName, setAgeRange, setSex, setActivePanel }) => {
-  console.log(params);
   return (
     <Panel id={id}>
       <PanelHeader>Поиск</PanelHeader>

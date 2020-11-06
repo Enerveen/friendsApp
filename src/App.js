@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import bridge from '@vkontakte/vk-bridge';
-import { View } from '@vkontakte/vkui';
+import { View, PopoutWrapper, ScreenSpinner } from '@vkontakte/vkui';
 
 import { loadFriends } from './redux/actions';
 
@@ -10,7 +10,13 @@ import '@vkontakte/vkui/dist/vkui.css';
 import Friends from './panels/Friends';
 import Search from './panels/Search';
 
-const App = ({ friends, loadFriends, panel }) => {
+const App = ({ friends, loadFriends, panel, loading }) => {
+  const popup = loading ? (
+    <PopoutWrapper>
+      <ScreenSpinner />
+    </PopoutWrapper>
+  ) : null;
+
   useEffect(() => {
     bridge.send('VKWebAppGetUserInfo').then((user) =>
       bridge
@@ -47,7 +53,7 @@ const App = ({ friends, loadFriends, panel }) => {
   }, []);
 
   return (
-    <View activePanel={panel}>
+    <View activePanel={panel} popout={popup}>
       <Friends id='friends' />
       <Search id='search' />
     </View>
@@ -57,12 +63,9 @@ const App = ({ friends, loadFriends, panel }) => {
 const mapStateToProps = (state) => {
   return {
     friends: state.friends,
-    panel: state.panel,
+    panel: state.app.activePanel,
+    loading: state.app.isLoading,
   };
 };
 
 export default connect(mapStateToProps, { loadFriends })(App);
-
-/*
-
-*/
