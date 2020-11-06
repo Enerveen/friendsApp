@@ -35,7 +35,7 @@ const Search = ({ id, params, setName, setAgeRange, setSex, setActivePanel }) =>
             value='2'
             description=''
             onInput={(e) => {
-              setSex(e.target.value);
+              setSex(Number(e.target.value));
             }}
           >
             Мужской
@@ -44,7 +44,7 @@ const Search = ({ id, params, setName, setAgeRange, setSex, setActivePanel }) =>
             name='radio'
             value='1'
             onInput={(e) => {
-              setSex(e.target.value);
+              setSex(Number(e.target.value));
             }}
           >
             Женский
@@ -54,14 +54,18 @@ const Search = ({ id, params, setName, setAgeRange, setSex, setActivePanel }) =>
             value='0'
             defaultChecked
             onInput={(e) => {
-              setSex(e.target.value);
+              setSex(Number(e.target.value));
             }}
           >
             Любой
           </Radio>
         </div>
         <RangeSlider
-          top={`Возраст: от ${params.ageRange[0]} до ${params.ageRange[1]} лет`}
+          top={
+            params.ageRange[0] === 14 && params.ageRange[1] === 100
+              ? 'Возраст не имеет значения'
+              : `Возраст: от ${params.ageRange[0]} до ${params.ageRange[1]} лет`
+          }
           min={14}
           max={100}
           step={1}

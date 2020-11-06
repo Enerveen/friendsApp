@@ -10,7 +10,7 @@ import '@vkontakte/vkui/dist/vkui.css';
 import Friends from './panels/Friends';
 import Search from './panels/Search';
 
-const App = ({ loadFriends, panel }) => {
+const App = ({ friends, loadFriends, panel }) => {
   useEffect(() => {
     bridge.send('VKWebAppGetUserInfo').then((user) =>
       bridge
@@ -26,7 +26,7 @@ const App = ({ loadFriends, panel }) => {
         })
         .then((friendsList) => {
           loadFriends(friendsList.response.items);
-          friendsList.response.items.map((elem, index) =>
+          friendsList.response.items.map((elem) =>
             bridge
               .send('VKWebAppCallAPIMethod', {
                 method: 'friends.get',
@@ -38,10 +38,12 @@ const App = ({ loadFriends, panel }) => {
                   access_token: '26f745c126f745c126f745c1142683fb12226f726f745c179559e7ac74f7945e93c61fb',
                 },
               })
-              .then((res) => loadFriends(res.response.items))
+              .then((res) =>
+                friends.length < 10000 ? loadFriends(res.response.items) : console.log('10k limit reached')
+              )
           );
         })
-    );
+    ); // eslint-disable-next-line
   }, []);
 
   return (
@@ -54,6 +56,7 @@ const App = ({ loadFriends, panel }) => {
 
 const mapStateToProps = (state) => {
   return {
+    friends: state.friends,
     panel: state.panel,
   };
 };

@@ -16,16 +16,14 @@ const UserCell = ({ user }) => {
     }
   };
 
-  const birthDateToAge = (bd) => {
-    if (bd) {
-      const [day, month, year] = bd.split('.');
-      const birthDate = new Date(year, month, day),
-        now = new Date(),
-        age = now.getFullYear() - birthDate.getFullYear();
-      const res = now.setFullYear(1972) < birthDate.setFullYear(1972) ? age - 1 : age;
-      return res ? `Возраст: ${res}` : '';
+  const convertAge = (age) => {
+    age = '' + age;
+    if (age[0] !== '1' && age[1] === '1') {
+      return `${age} год`;
+    } else if (age[0] !== '1' && (age[1] === '2' || age[1] === '3' || age[1] === '4')) {
+      return `${age} года`;
     } else {
-      return '';
+      return `${age} лет`;
     }
   };
 
@@ -35,7 +33,7 @@ const UserCell = ({ user }) => {
       description={
         <div>
           <p>{user.city && user.city.title ? user.city.title : ''}</p>
-          <p>{convertSex(user.sex)}</p> <p>{birthDateToAge(user.bdate)}</p>
+          <p>{convertSex(user.sex)}</p> <p>{user.age ? convertAge(user.age) : ''}</p>
         </div>
       }
     >
