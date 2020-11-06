@@ -11,6 +11,8 @@ import Friends from './panels/Friends';
 import Search from './panels/Search';
 
 const App = ({ friends, loadFriends, panel, loading }) => {
+  const TOKEN = '26f745c126f745c126f745c1142683fb12226f726f745c179559e7ac74f7945e93c61fb';
+
   const popup = loading ? (
     <PopoutWrapper>
       <ScreenSpinner />
@@ -27,7 +29,7 @@ const App = ({ friends, loadFriends, panel, loading }) => {
             user_id: user.id,
             count: 10000,
             v: '5.124',
-            access_token: process.env.ACCESS_TOKEN,
+            access_token: TOKEN,
           },
         })
         .then((friendsList) => {
@@ -41,7 +43,7 @@ const App = ({ friends, loadFriends, panel, loading }) => {
                   user_id: elem.id,
                   count: 10000,
                   v: '5.124',
-                  access_token: process.env.ACCESS_TOKEN,
+                  access_token: TOKEN,
                 },
               })
               .then((res) =>
