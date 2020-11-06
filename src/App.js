@@ -27,7 +27,7 @@ const App = ({ friends, loadFriends, panel, loading }) => {
             user_id: user.id,
             count: 10000,
             v: '5.124',
-            access_token: '26f745c126f745c126f745c1142683fb12226f726f745c179559e7ac74f7945e93c61fb',
+            access_token: process.env.ACCESS_TOKEN,
           },
         })
         .then((friendsList) => {
@@ -41,7 +41,7 @@ const App = ({ friends, loadFriends, panel, loading }) => {
                   user_id: elem.id,
                   count: 10000,
                   v: '5.124',
-                  access_token: '26f745c126f745c126f745c1142683fb12226f726f745c179559e7ac74f7945e93c61fb',
+                  access_token: process.env.ACCESS_TOKEN,
                 },
               })
               .then((res) =>
