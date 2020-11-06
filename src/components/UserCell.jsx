@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Cell, Avatar } from '@vkontakte/vkui';
+import { Cell, Avatar, Link } from '@vkontakte/vkui';
 
 import './UserCell.css';
 
@@ -40,7 +40,9 @@ const UserCell = ({ user }) => {
         </div>
       }
     >
-      {`${user.first_name} ${user.last_name}`}
+      <Link href={`https://vk.com/id${user.id}`} target='_blank'>
+        {user.name}
+      </Link>
     </Cell>
   );
 };

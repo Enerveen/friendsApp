@@ -25,12 +25,16 @@ const Friends = ({ friends, params, id, setActivePanel, loading, setLoading }) =
   };
 
   friends.map((elem) => birthDateToAge(elem));
+  friends.map((elem) => {
+    elem.name = elem.first_name + ' ' + elem.last_name;
+    return;
+  });
 
   const filterFriends = (users) => {
     users = users.filter((user, index, self) => self.findIndex((u) => u.id === user.id) === index);
 
     if (params.name !== '') {
-      users = users.filter((elem) => elem.first_name.includes(params.name) || elem.last_name.includes(params.name));
+      users = users.filter((elem) => elem.name.includes(params.name));
     }
     if (params.sex !== 0) {
       users = users.filter((elem) => elem.sex === params.sex);
